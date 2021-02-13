@@ -97,6 +97,8 @@ SPDX-License-Identifier: EPL-2.0 OR Apache-2.0 OR GPL-2.0 WITH Classpath-excepti
 	</target>
 
 	<target name="build" >
+	</target>
+	<!-- target name="build" >
 		<echo>os.name: ${os.name}</echo>
 		<if>
 			<or>
@@ -115,5 +117,5 @@ SPDX-License-Identifier: EPL-2.0 OR Apache-2.0 OR GPL-2.0 WITH Classpath-excepti
 				</if>
 			</then>
 		</if>
-	</target>
+	</target -->
 </project>

@@ -44,8 +44,9 @@
 		</path>
 	</target>
 
-	<target name="generate-all" depends="-init">
-		<generate-package version="29" />
+	<target name="generate-all" depends="">
+	<!-- target name="generate-all" depends="-init">
+		<generate-package version="29" / -->
 	</target>
 
 	<macrodef name="generate-package">
