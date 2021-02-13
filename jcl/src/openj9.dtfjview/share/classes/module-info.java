@@ -25,13 +25,4 @@
  * Defines the jdmpview tool for reading system core and java core diagnostic files.
  */
 @SuppressWarnings("module")
-module openj9.dtfjview {
-  requires openj9.dtfj;
-  requires java.logging;
-
-  exports com.ibm.jvm.dtfjview.commands to openj9.dtfj;
-  exports com.ibm.jvm.dtfjview.commands.infocommands to openj9.dtfj;
-  exports com.ibm.jvm.dtfjview.commands.setcommands to openj9.dtfj;
-  exports com.ibm.jvm.dtfjview.commands.showcommands to openj9.dtfj;
-  exports com.ibm.jvm.dtfjview.commands.xcommands to openj9.dtfj;
-}
+module openj9.dtfjview {}

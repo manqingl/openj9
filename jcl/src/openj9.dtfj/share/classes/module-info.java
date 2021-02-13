@@ -29,20 +29,4 @@
  * tools. DTFJ works with data from a system dump or a Javadump.
  */
 @SuppressWarnings("module")
-module openj9.dtfj {
-  requires transitive java.desktop;
-  requires transitive java.logging;
-  requires java.xml;
-  requires openj9.traceformat;
-  /*[IF PLATFORM-mz31 | PLATFORM-mz64]*/
-  requires ibm.jzos;
-  /*[ENDIF]*/
-  exports com.ibm.dtfj.image;
-  exports com.ibm.dtfj.image.j9 to openj9.dtfjview;
-  exports com.ibm.dtfj.java;
-  exports com.ibm.dtfj.runtime;
-  exports com.ibm.dtfj.utils.file to openj9.dtfjview;
-  exports com.ibm.java.diagnostics.utils to openj9.dtfjview;
-  exports com.ibm.java.diagnostics.utils.commands to openj9.dtfjview;
-  exports com.ibm.java.diagnostics.utils.plugins to openj9.dtfjview;
-}
+module openj9.dtfj {}
