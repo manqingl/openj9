@@ -28,10 +28,21 @@
 module openj9.dtfjview {
   requires openj9.dtfj;
   requires java.logging;
+  
+//Exporting all for service purpose.
+ exports com.ibm.jvm.dtfjview;
+ exports com.ibm.jvm.dtfjview.commands;
+ exports com.ibm.jvm.dtfjview.commands.helpers;
+ exports com.ibm.jvm.dtfjview.commands.infocommands;
+ exports com.ibm.jvm.dtfjview.commands.setcommands;
+ exports com.ibm.jvm.dtfjview.commands.showcommands;
+ exports com.ibm.jvm.dtfjview.commands.xcommands;
+ exports com.ibm.jvm.dtfjview.heapdump;
+ exports com.ibm.jvm.dtfjview.heapdump.classic;
+ exports com.ibm.jvm.dtfjview.heapdump.portable;
+ exports com.ibm.jvm.dtfjview.spi;
+ exports com.ibm.jvm.dtfjview.tools;
+ exports com.ibm.jvm.dtfjview.tools.impl;
+ exports com.ibm.jvm.dtfjview.tools.utils;
 
-  exports com.ibm.jvm.dtfjview.commands to openj9.dtfj;
-  exports com.ibm.jvm.dtfjview.commands.infocommands to openj9.dtfj;
-  exports com.ibm.jvm.dtfjview.commands.setcommands to openj9.dtfj;
-  exports com.ibm.jvm.dtfjview.commands.showcommands to openj9.dtfj;
-  exports com.ibm.jvm.dtfjview.commands.xcommands to openj9.dtfj;
 }
