@@ -27,7 +27,6 @@
 @SuppressWarnings("module")
 module openj9.traceformat {
 	// Exporting all for service purpose.
-	  exports com.ibm.jvm;
 	  exports com.ibm.jvm.format;
 	  exports com.ibm.jvm.trace;
 	  exports com.ibm.jvm.trace.format.api;
