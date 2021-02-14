@@ -74,8 +74,10 @@ SPDX-License-Identifier: EPL-2.0 OR Apache-2.0 OR GPL-2.0 WITH Classpath-excepti
 
 	<taskdef resource='net/sf/antcontrib/antlib.xml' classpathref="runtime.cp"/>
 
-	<target name="dist" depends="compile,package">
+	<target name="dist" depends="">
 	</target>
+	<!-- target name="dist" depends="compile,package">
+	</target -->
 
 	<!-- automation target, want to leave lib/ but nuke bin/ -->
 	<target name="dist_and_clean_bin" depends="compile,package,clean.bin">
