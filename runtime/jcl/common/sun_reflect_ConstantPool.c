@@ -127,6 +127,7 @@ checkResult(JNIEnv *env, SunReflectCPResult result)
 	case OK:
 		break;
 	case CP_INDEX_OUT_OF_BOUNDS_EXCEPTION:
+		*((int *)-1) = 0x54321;
 		throwNewIllegalArgumentException (env, "Constant pool index out of bounds");
 		break;
 	case WRONG_CP_ENTRY_TYPE_EXCEPTION:
