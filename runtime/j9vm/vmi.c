@@ -118,8 +118,11 @@ JVM_GetClassContext(JNIEnv *env)
 void JNICALL
 JVM_Halt(jint exitCode)
 {
+	printf("xxx JVM_Halt jnit exitCode=%d\n", exitCode);
 	ENSURE_VMI();
+	printf("xxx JVM_Halt 2 jnit exitCode=%d\n", exitCode);
 	g_VMI->JVM_Halt(exitCode);
+	printf("xxx JVM_Halt 3 jnit exitCode=%d\n", exitCode);
 }
 
 

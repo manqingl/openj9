@@ -462,7 +462,7 @@ static UDATA setGlobalConvertersAware(J9JavaVM *vm) {
 void OMRNORETURN exitJavaVM(J9VMThread * vmThread, IDATA rc)
 {
 	J9JavaVM* vm = NULL;
-
+	printf("xxx jvminit.c 1 exitJavaVM \n");
 #ifdef OMR_THR_TRACING
 	omrthread_monitor_dump_all();
 	omrthread_dump_trace(omrthread_self());
@@ -473,17 +473,23 @@ void OMRNORETURN exitJavaVM(J9VMThread * vmThread, IDATA rc)
 	 */
 	if (vmThread == NULL) {
 		jint nVMs;
+		printf("xxx jvminit.c 2 exitJavaVM vmThread=%p\n", vmThread);
 		if (JNI_OK == J9_GetCreatedJavaVMs( (JavaVM**)&vm, 1, &nVMs)) {
+			printf("xxx jvminit.c 3 exitJavaVM vmThread=%p\n", vmThread);
 			if (nVMs != 1) {
 				vm = NULL;
+				printf("xxx jvminit.c 4 exitJavaVM vmThread=%p\n", vmThread);
 			} else {
 				vmThread = currentVMThread(vm);
+				printf("xxx jvminit.c 5 exitJavaVM vmThread=%p\n", vmThread);
 			}
 		} else {
 			vm = NULL;
+			printf("xxx jvminit.c 6 exitJavaVM vmThread=%p\n", vmThread);
 		}
 	} else {
 		vm = vmThread->javaVM;
+		printf("xxx jvminit.c 7 exitJavaVM vm=%p\n", vm);
 		if ((vm->runtimeFlags & J9_RUNTIME_REPORT_STACK_USE) && vmThread->stackObject && (vm->verboseLevel & VERBOSE_STACK)) {
 			print_verbose_stackusage_of_nonsystem_threads(vmThread);
 			print_verbose_stackUsage(vmThread, FALSE);
@@ -497,15 +503,18 @@ void OMRNORETURN exitJavaVM(J9VMThread * vmThread, IDATA rc)
 		/* exitJavaVM is always called from a JNI context */
 		enterVMFromJNI(vmThread);
 		releaseVMAccess(vmThread);
+		printf("xxx jvminit.c 8 exitJavaVM vm=%p\n", vm);
 #endif /* J9VM_INTERP_ATOMIC_FREE_JNI */
 
 		/* we only let the shutdown code run once */
 
 		if(vm->runtimeFlagsMutex != NULL) {
 			omrthread_monitor_enter(vm->runtimeFlagsMutex);
+			printf("xxx jvminit.c 9 exitJavaVM vm=%p\n", vm);
 		}
 
 		if(vm->runtimeFlags & J9_RUNTIME_EXIT_STARTED) {
+			printf("xxx jvminit.c 10 exitJavaVM vm=%p\n", vm);
 			if (vm->runtimeFlagsMutex != NULL) {
 				omrthread_monitor_exit(vm->runtimeFlagsMutex);
 			}
@@ -518,29 +527,33 @@ void OMRNORETURN exitJavaVM(J9VMThread * vmThread, IDATA rc)
 			while (1) {
 				omrthread_suspend();
 			}
+			printf("xxx jvminit.c 11 exitJavaVM vm=%p\n", vm);
 		}
 
 		vm->runtimeFlags |= J9_RUNTIME_EXIT_STARTED;
 		if(vm->runtimeFlagsMutex != NULL) {
 			omrthread_monitor_exit(vm->runtimeFlagsMutex);
 		}
-
+		printf("xxx jvminit.c 12 exitJavaVM vm=%p\n", vm);
 #ifdef J9VM_OPT_SIDECAR
 		if (vm->sidecarExitHook)
 			(*(vm->sidecarExitHook))(vm);
 #endif
-
+		printf("xxx jvminit.c 13 exitJavaVM vm=%p\n", vm);
 #ifdef J9VM_PROF_COUNT_ARGS_TEMPS
 		report(vm);
 #endif
-
+		printf("xxx jvminit.c 14 exitJavaVM vm=%p\n", vm);
 		if (vmThread) {
+			printf("xxx jvminit.c 15 exitJavaVM vm=%p\n", vm);
 			/* we can only perform these shutdown steps if the current thread is attached */
 			TRIGGER_J9HOOK_VM_SHUTTING_DOWN(vm->hookInterface, vmThread, rc);
+			printf("xxx jvminit.c 16 exitJavaVM vm=%p\n", vm);
 		}
 
 		/* exitJavaVM runs special exit stage, but doesn't close the libraries or deallocate the VM thread */
 		runExitStages(vm, vmThread);
+		printf("xxx jvminit.c 17 exitJavaVM vm=%p\n", vm);
 
 		/* Acquire exclusive VM access to bring all threads to a safe
 		 * point before shutting down.  This prevents intermittent crashes (particularly
@@ -559,7 +572,7 @@ void OMRNORETURN exitJavaVM(J9VMThread * vmThread, IDATA rc)
 			internalAcquireVMAccess(vmThread);
 			acquireExclusiveVMAccess(vmThread);
 		}
-
+		printf("xxx jvminit.c 18 exitJavaVM vm=%p\n", vm);
 #if defined(WIN32)
 		/* Do not attempt to exit while a JNI shared library open is in progress */
 		omrthread_monitor_enter(vm->classLoaderBlocksMutex);
@@ -570,12 +583,15 @@ void OMRNORETURN exitJavaVM(J9VMThread * vmThread, IDATA rc)
 #endif /* COUNT_BYTECODE_PAIRS */
 
 		if (vm->exitHook) {
+			printf("xxx jvminit.c 19 exitJavaVM vm=%p\n", vm);
 			vm->exitHook((jint) rc);
+			printf("xxx jvminit.c 20 exitJavaVM vm=%p\n", vm);
 		}
-
+		printf("xxx jvminit.c 21 exitJavaVM vm=%p\n", vm);
 		j9exit_shutdown_and_exit((I_32) rc);
+		printf("xxx jvminit.c 22 exitJavaVM vm=%p\n", vm);
 	}
-
+	printf("xxx jvminit.c 23 exitJavaVM vm=%p\n", vm);
 	/* If we got here, then either we couldn't find a VM(!) or j9exit_shutdown_and_exit() returned(!)
 	 * Neither of those scenarios should be possible
 	 * But if somehow it does happen, we don't have many options here!

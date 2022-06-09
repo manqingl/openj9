@@ -513,10 +513,12 @@ JNIEXPORT void JNICALL
 JVM_Halt_Impl(jint exitCode)
 {
 	J9VMThread* vmThread = VM.javaVM->internalVMFunctions->currentVMThread(VM.javaVM);
+	printf("xxx JVM_Halt_Impl exitCode=%d vmThread=%p\n", exitCode, vmThread);
 
 	Trc_SunVMI_Halt_Entry(vmThread, exitCode);
 
 	VM.javaVM->internalVMFunctions->exitJavaVM(vmThread, exitCode);
+	printf("xxx JVM_Halt_Impl 2 exitCode=%d vmThread=%p\n", exitCode, vmThread);
 
 	/* should not get here */
 
