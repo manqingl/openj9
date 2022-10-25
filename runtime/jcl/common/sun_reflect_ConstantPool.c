@@ -201,6 +201,8 @@ getMethodAt(JNIEnv *env, jobject constantPoolOop, jint cpIndex, UDATA resolveFla
 	SunReflectCPResult result = NULL_POINTER_EXCEPTION;
 	jmethodID methodID = NULL;
 	UDATA cpType = J9CPTYPE_UNUSED;
+	static U_64 x = 0;
+	x++;
 
 	if (NULL != constantPoolOop) {
 		J9RAMConstantRef *ramConstantRef = NULL;
@@ -267,6 +269,8 @@ getMethodAt(JNIEnv *env, jobject constantPoolOop, jint cpIndex, UDATA resolveFla
 			if (NULL != jlClass) {
 				const jboolean isStatic = (J9CPTYPE_STATIC_METHOD == cpType) || (J9CPTYPE_INTERFACE_STATIC_METHOD == cpType);
 				returnValue = (*env)->ToReflectedMethod(env, jlClass, methodID, isStatic);
+                printf("Java 11 : %lu ToReflectedMethod env=%p jlClass=%p methodID=%p isStatic=%d constantPoolOop=%p cpIndex=%d resolveFlags=%lx returnValue=%p\n",
+                                x, env, jlClass, methodID, isStatic, constantPoolOop, cpIndex, resolveFlags, returnValue);
 			} else {
 				vmFunctions->throwNativeOOMError(env, 0, 0);
 			}
@@ -664,6 +668,9 @@ Java_sun_reflect_ConstantPool_getStringAt0(JNIEnv *env, jobject unusedObject, jo
 jobject JNICALL
 Java_sun_reflect_ConstantPool_getUTF8At0(JNIEnv *env, jobject unusedObject, jobject constantPoolOop, jint cpIndex)
 {
+    static U_64 x = 0;
+    x++;
+    printf("Java 11 : %lu Java_sun_reflect_ConstantPool_getUTF8At0 env=%p unusedObject=%p constantPoolOop=%p cpIndex=%d\n", x, env, unusedObject, constantPoolOop, cpIndex);
 	return getStringAt(env, unusedObject, constantPoolOop, cpIndex, J9CPTYPE_ANNOTATION_UTF8);
 }
 
