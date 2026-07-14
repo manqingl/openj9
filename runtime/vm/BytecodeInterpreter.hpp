@@ -5503,7 +5503,12 @@ done:
 #endif /* JAVA_SPEC_VERSION >= 24 */
 
 		/* Set the linker option to the current thread for the critical downcall. */
-		_currentThread->isInCriticalDownCall = (0 == *(U_32*)(_sp + 9)) ? FALSE : TRUE;
+//		_currentThread->isInCriticalDownCall = (0 == *(U_32*)(_sp + 9)) ? FALSE : TRUE;
+#if JAVA_SPEC_VERSION >= 24
+        _currentThread->isInCriticalDownCall = (0 == *(U_32*)(_sp + 11)) ? FALSE : TRUE;
+#else /* JAVA_SPEC_VERSION >= 24 */
+        _currentThread->isInCriticalDownCall = (0 == *(U_32*)(_sp + 9)) ? FALSE : TRUE;
+#endif /* JAVA_SPEC_VERSION >= 24 */
 #endif /* JAVA_SPEC_VERSION >= 21 */
 
 		if (isMinimal) {
